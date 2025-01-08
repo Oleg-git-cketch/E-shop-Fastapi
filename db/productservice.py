@@ -538,17 +538,8 @@ def update_address_db(user_id: int, change_info: str, new_info: str):
 
         db.commit()
 
-        updated_addresses.append({
-            "ID:": address.id,
-            "Улица:": address.street,
-            "Номер дома:": address.house_number,
-            "Номер подъезда:": address.entrance_number,
-            "Номер квартиры:": address.apartment_number,
-            "Город:": address.city,
-            "Страна:": address.country
-        })
+    return 'Успешно!'
 
-    return updated_addresses
 def delete_address_db(user_id: int):
     db = next(get_db())
 
@@ -573,6 +564,45 @@ def create_promo_code_db(code: str, amount: float, min_order_value: float):
     db.commit()
     db.refresh(db_promo)
     return db_promo
+
+def get_promo_code_db(code):
+    db = next(get_db())
+    promo = db.query(PromoCode).filter_by(code=code).first()
+
+    if promo:
+        return [{
+            'ID:': promo.id,
+            'Промокод:': promo.code,
+            'Сумма скидки:': promo.amount,
+            'От какой суммы будует действовать промокод:': promo.min_order_value
+        }]
+
+def update_promo_code_db(code, change_info, new_info):
+    db = next(get_db())
+    promo = db.query(PromoCode).filter_by(code=code).first()
+
+    if promo:
+        if change_info == 'code':
+            promo.code = new_info
+        elif change_info == 'amount':
+            promo.amount = new_info
+        elif change_info == 'min_order_value':
+            promo.min_order_value = new_info
+
+        db.commit()
+        return 'Успешно!'
+    return 'Промокод не найден!'
+
+def delete_promo_code(code):
+    db = next(get_db())
+    promo = db.query(PromoCode).filter_by(code=code).first()
+
+    if promo:
+        db.delete(promo)
+        db.commit()
+        return 'Успешно!'
+    return 'Промокод не найден!'
+
 
 def apply_promo_code_db(code: str, order_total: float):
     db = next(get_db())

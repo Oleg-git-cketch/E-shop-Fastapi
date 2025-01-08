@@ -19,7 +19,7 @@ async def order_zakaz(user_id: int, promo_code: str = None):
 
     clear_cart_db(user_id)
 
-    send_order_to_telegram(cart_items, user_id, order_data['total_price'])
+    send_order_to_telegram(cart_items, user_id, order_data['total_price'], order_data['discount'])
 
     return {
         "success": "Order placed successfully",

@@ -6,7 +6,7 @@ CHAT_ID = '7040733741'
 bot = telebot.TeleBot(API_TOKEN)
 
 
-def send_order_to_telegram(cart_items, username, total_price):
+def send_order_to_telegram(cart_items, username, total_price, discount):
     message = f"Новый заказ от пользователя {username}:\n\n"
 
     total_price_calculated = 0
@@ -17,6 +17,7 @@ def send_order_to_telegram(cart_items, username, total_price):
                    f"Конечная цена: {item['total_price']}\n\n"
         total_price_calculated += item['total_price']
 
+    message += f"Промокод: -{discount} UZS\n\n"
     message += f"Общая сумма заказа: {total_price} UZS\n\n"
     message += "Заказ успешно оформлен!"
 
