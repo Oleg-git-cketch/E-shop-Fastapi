@@ -39,6 +39,7 @@ def get_exact_product_db(pr_id: int):
             "Количество:": exact_product.pr_quantity,
             "Категория:": exact_product.category
         }]
+    return 'Продукт не найден!'
 
 def update_product_db(pr_id: int, change_info: str, new_info: str):
     db = next(get_db())

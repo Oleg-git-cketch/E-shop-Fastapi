@@ -12,17 +12,20 @@ def register_user_db(name: str, surname: str, phone_number: str, age: str, city:
 def get_exact_user_db(user_id: int):
     db = next(get_db())
     exact_user = db.query(User).filter_by(id=user_id).first()
-    return [{
-        'ID': exact_user.id,
-        'Username': exact_user.username,
-        'Email': exact_user.email,
-        'Пароль': exact_user.password,
-        'Имя': exact_user.name,
-        'Фамилия': exact_user.surname,
-        'Возраст': exact_user.age,
-        'Номер телефона': exact_user.phone_number,
-        'Адрес': exact_user.addresses
-    }]
+
+    if exact_user:
+        return [{
+            'ID': exact_user.id,
+            'Username': exact_user.username,
+            'Email': exact_user.email,
+            'Пароль': exact_user.password,
+            'Имя': exact_user.name,
+            'Фамилия': exact_user.surname,
+            'Возраст': exact_user.age,
+            'Номер телефона': exact_user.phone_number,
+            'Адрес': exact_user.addresses
+        }]
+    return 'Пользователь не найден!'
 
 def update_user_db(user_id: int, change_info: str, new_info: str):
     db = next(get_db())
