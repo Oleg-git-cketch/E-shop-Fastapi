@@ -24,11 +24,6 @@ async def register_user(user_data: UserModel):
     result = register_user_db(**user_dict)
     return result_message(result)
 
-@user_router.get('/get_all_users')
-async def get_all_users(user_id):
-    result = get_all_users_db(user_id)
-    return result_message(result)
-
 @user_router.get('/get_exact_user')
 async def get_exact_user(user_id):
     result = get_exact_user_db(user_id)

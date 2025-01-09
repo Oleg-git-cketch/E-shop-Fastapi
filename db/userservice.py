@@ -7,18 +7,22 @@ def register_user_db(name: str, surname: str, phone_number: str, age: str, city:
     new_user = User(name=name, surname=surname, phone_number=phone_number, age=age, city=city, username=username, email=email, password=password)
     db.add(new_user)
     db.commit()
-    return new_user
+    return 'Пользователь был успешно добавлен!'
 
 def get_exact_user_db(user_id: int):
     db = next(get_db())
     exact_user = db.query(User).filter_by(id=user_id).first()
-    return exact_user
-
-def get_all_users_db(user_id: int):
-    db = next(get_db())
-    if user_id:
-        all_users = db.query(User).filter_by(id=user_id).first()
-        return all_users
+    return [{
+        'ID': exact_user.id,
+        'Username': exact_user.username,
+        'Email': exact_user.email,
+        'Пароль': exact_user.password,
+        'Имя': exact_user.name,
+        'Фамилия': exact_user.surname,
+        'Возраст': exact_user.age,
+        'Номер телефона': exact_user.phone_number,
+        'Адрес': exact_user.addresses
+    }]
 
 def update_user_db(user_id: int, change_info: str, new_info: str):
     db = next(get_db())
@@ -42,11 +46,11 @@ def update_user_db(user_id: int, change_info: str, new_info: str):
         elif change_info == 'password':
             update_user.password = new_info
         else:
-            return False
+            return 'Изменяемая информация не найдена!'
 
         db.commit()
-        return True
-    return False
+        return 'Информация успешна обновлена!'
+    return 'Пользователь не найден!'
 
 def delete_user_db(user_id: int):
     db = next(get_db())
@@ -55,5 +59,5 @@ def delete_user_db(user_id: int):
     if delete_user:
         db.delete(delete_user)
         db.commit()
-        return True
-    return False
+        return 'Пользователь успешно удален!'
+    return 'Пользователь не найден!'

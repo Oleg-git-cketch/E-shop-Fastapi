@@ -1,10 +1,9 @@
 from . import result_message
-from .bot import send_order_to_telegram
 from db.productservice import *
 from fastapi import APIRouter
 
 
-promo_router = APIRouter(prefix='/promo', tags=["Промокод"])
+promo_router = APIRouter(prefix='/promo', tags=["Промокоды"])
 
 
 @promo_router.post('/add_promo')
