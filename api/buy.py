@@ -7,7 +7,7 @@ buy_router = APIRouter(prefix='/buy', tags=["Покупка"])
 
 
 @buy_router.post('/buy_products')
-async def order_zakaz(user_id: int, promo_code: str = None):
+async def order(user_id: int, promo_code: str = None):
     cart_items = get_cart_by_user_db(user_id)
 
     if not cart_items:

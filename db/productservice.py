@@ -238,13 +238,17 @@ def get_cart_by_user_db(user_id: int):
     if cart_items:
         for item in cart_items:
             product = db.query(Product).filter_by(id=item.pr_id).first()
-            items.append({"ID": product.id,
-                     "Продукт": product.pr_name,
-                     "Количество": item.quantity,
-                     "Цена": product.pr_price,
-                     "Конечная цена": product.pr_price * item.quantity})
+            items.append({
+                "ID": product.id,
+                "product_name": product.pr_name,
+                "quantity": item.quantity,
+                "price": product.pr_price,
+                "total_price": product.pr_price * item.quantity,
+            })
         return items
-    return 'Продукты в корзине не найдены!'
+
+    return []
+
 
 def delete_from_cart_db(cart_item_id: int):
     db = next(get_db())
@@ -313,11 +317,12 @@ def create_order_db(user_id: int, cart_items: list, cart_total: float, promo_cod
     db.commit()
 
     return {
-        "ID Заказа": new_order.id,
-        "Кочная цена": cart_total,
-        "Промокод": discount,
-        "Статус": new_order.status
+        "order_id": new_order.id,
+        "total_price": cart_total,
+        "discount": discount,
+        "status": new_order.status
     }
+
 
 
 
